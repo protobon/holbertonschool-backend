@@ -51,15 +51,8 @@ class Server:
         assert type(page) == int and type(page_size) == int
         assert page > 0 and page_size > 0
 
-        page_data = []  # list to return
-        idx_range = index_range(page, page_size)  # range of data to return
-        data = self.dataset()  # complete dataset
-        if len(data) < idx_range[1]:
-            return page_data
-        for idx in range(idx_range[0], idx_range[1]):
-            page_data.append(data[idx])
-
-        return page_data
+        [start, end] = index_range(page, page_size)  # range of data to return
+        return self.dataset()[start: end]
 
     def get_hyper(self, page: int = 1, page_size: int = 10) -> dict:
         """
@@ -73,14 +66,14 @@ class Server:
         total_pages: the total number of pages in the dataset as an integer
         """
         data = self.get_page(page, page_size)
-        total_pages = math.ceil(len(self.__dataset) / page_size)
+        total_pages = math.ceil(len(self.dataset()) / page_size)
         hypermedia: dict = {}
 
         hypermedia["page_size"] = len(data)
         hypermedia["page"] = page
         hypermedia["data"] = data
         hypermedia["next_page"] = page + 1 if page + 1 <= total_pages else None
-        hypermedia["prev_page"] = page - 1 if page - 1 > 0 else None
+        hypermedia["prev_page"] = page - 1 if page > 1 else None
         hypermedia["total_pages"] = total_pages
 
         return hypermedia
