@@ -4,7 +4,6 @@
 import csv
 import math
 from typing import List
-from xml.etree.ElementPath import get_parent_map
 
 
 def index_range(page: int, page_size: int) -> tuple:
