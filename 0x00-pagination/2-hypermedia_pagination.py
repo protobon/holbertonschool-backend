@@ -73,12 +73,14 @@ class Server:
         total_pages: the total number of pages in the dataset as an integer
         """
         data = self.get_page(page, page_size)
+        total_pages = math.ceil(len(self.__dataset) / page_size)
         hypermedia: dict = {}
+
         hypermedia["page_size"] = len(data)
         hypermedia["page"] = page
         hypermedia["data"] = data
-        hypermedia["next_page"] = page + 1 if page + 1 > len(data) else None
+        hypermedia["next_page"] = page + 1 if page + 1 <= total_pages else None
         hypermedia["prev_page"] = page - 1 if page > 1 else None
-        hypermedia["total_pages"] = math.ceil(len(self.__dataset) / page_size)
+        hypermedia["total_pages"] = total_pages
 
         return hypermedia
