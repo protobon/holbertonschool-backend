@@ -80,7 +80,7 @@ class Server:
         hypermedia["page"] = page
         hypermedia["data"] = data
         hypermedia["next_page"] = page + 1 if page + 1 <= total_pages else None
-        hypermedia["prev_page"] = page - 1 if page > 1 else None
+        hypermedia["prev_page"] = page - 1 if page - 1 > 0 else None
         hypermedia["total_pages"] = total_pages
 
         return hypermedia
