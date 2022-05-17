@@ -1,11 +1,15 @@
 #!/usr/bin/env python3
-"""Flask app"""
+"""Simple Flask Application"""
 
 from flask import Flask, render_template
-from flask_babel import Babel
 
 app = Flask(__name__)
 
-@app.route('/')
+
+@app.route('/', methods=['GET'], strict_slashes=False)
 def index():
-    render_template('0-index.html')
+    """
+    GET root
+    renders 0-index.html
+    """
+    return render_template('0-index.html')
