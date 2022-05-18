@@ -22,8 +22,8 @@ def get_user():
     """
     login_as = request.args.get("login_as", False)
     if login_as:
-        user = users.get(int(login_as), False)
-        if user in users:
+        user = users.get(int(login_as))
+        if user:
             return user
     return None
 
