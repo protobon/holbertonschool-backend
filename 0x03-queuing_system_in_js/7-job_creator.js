@@ -49,15 +49,20 @@ const jobs = [
 
 const queue = kue.createQueue();
 
-const job = queue.create('push_notification_code_2', {
-    "phoneNumber": "099999991",
-    "message": "Full perspective",
-  }).save( function(err){
-   err ? console.log(`Notification job ${job.id} failed: ${job.error}`) :
-   console.log(`Notification job created: ${job.id}`);
-});
+function jobProgress(job, complete=0, total=jobs.length) {
+    console.log(`Notification job ${job.id} ${complete/total}% complete`);
+}
 
+for (const job_data of jobs) {
+    const job = queue.create('push_notification_code_2', job_data)
+    .save( function(err){
+       err ? console.log(`Notification job ${job.id} failed: ${job.error}`) :
+       console.log(`Notification job created: ${job.id}`);
+    });
 
-job.on('complete', function(result) {
-    console.log(`Notification job ${job.id} completed`);
-});
+    job.on('complete', function(result) {
+        console.log(`Notification job ${job.id} completed`);
+    });
+
+    job.progress(jobs, jobs.length);
+}
