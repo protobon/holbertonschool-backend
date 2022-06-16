@@ -16,11 +16,11 @@ client.on('error', (err) => {
     await client.connect();
 })();
 
-const setNewSchool = (schoolName, value) => {
+function setNewSchool(schoolName, value) {
     client.set(schoolName, value, redis.print);
 };
 
-const displaySchoolValue = (schoolName) => {
+function displaySchoolValue(schoolName) {
     client.get(schoolName, (err, reply) => {
         if (err) {
             console.log(err);
